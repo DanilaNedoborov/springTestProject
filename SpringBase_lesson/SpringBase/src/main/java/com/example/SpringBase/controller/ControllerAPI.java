@@ -10,9 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class ControllerAPI {
-
     EmployeeService employeeService;
-
     @GetMapping
     public List<Employee> getEmployee(){
         return employeeService.employeeList();
@@ -26,5 +24,11 @@ public class ControllerAPI {
     @DeleteMapping(path = "{id}")
     public void deleteEmployee(@PathVariable Long id){
         employeeService.deleteEmployee(id);
+    }
+
+    @PutMapping(path = "{id}")
+    public void updateEmployee(@PathVariable Long id, @RequestParam(required = false) String name,
+                               @RequestParam (required = false) String email){
+        employeeService.updateEmployee(id, name, email);
     }
 }
