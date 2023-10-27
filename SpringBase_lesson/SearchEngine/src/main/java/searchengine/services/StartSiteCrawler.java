@@ -10,20 +10,11 @@ import java.util.concurrent.ForkJoinTask;
 
 @Service
 public class StartSiteCrawler implements Runnable{
-//    private Site site;
-//
-//    public StartSiteCrawler(Site site){
-//        this.site = site;
-//    }
-
     private Site site;
 
-    public StartSiteCrawler(Site site){
+    public StartSiteCrawler(Site site) {
         this.site = site;
     }
-
-    public StartSiteCrawler(){}
-
 
     @SneakyThrows
     @Override
@@ -34,8 +25,8 @@ public class StartSiteCrawler implements Runnable{
         SiteСrawler siteСrawler = new SiteСrawler(tree, tree);
         ForkJoinTask<?> task = pool.submit(siteСrawler);
         task.invoke();
-        infoSite infoSite = new infoSite(site);
+        infoSite infoSite = new infoSite();
         infoSite.addListSiteMap(tree);
-        infoSite.printDetailInfoSite();
+        infoSite.addRecordsDB(site);
     }
 }

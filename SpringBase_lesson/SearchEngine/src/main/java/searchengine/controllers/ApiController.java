@@ -10,6 +10,7 @@ import searchengine.config.SitesList;
 import searchengine.dto.statistics.StatisticsResponse;
 import searchengine.model.PageTableRepository;
 import searchengine.model.SiteTableRepository;
+import searchengine.services.SiteСrawler;
 import searchengine.services.StartSiteCrawler;
 import searchengine.services.StatisticsService;
 
@@ -21,14 +22,9 @@ import java.util.logging.Logger;
 @RequestMapping("/api")
 public class ApiController {
 
-    @Autowired
-    SiteTableRepository siteTableRepository;
-
-    @Autowired
-    PageTableRepository pageTableRepository;
-
-
     private final StatisticsService statisticsService;
+    @Autowired
+    private SitesList sitesList;
 
     public ApiController(StatisticsService statisticsService) {
         this.statisticsService = statisticsService;
@@ -41,9 +37,9 @@ public class ApiController {
 
     @GetMapping("/startIndexing")
     public void startIndexing() {
-        SitesList sitesList = new SitesList();
-        for(Site site : sitesList.getSites()){
-            new Thread(new StartSiteCrawler(site));
+        for(Site site: sitesList.getSites()){
+            StartSiteCrawler startSiteCrawler = new StartSiteCrawler(site);
+            new Thread(startSiteCrawler).start();
         }
     }
 }

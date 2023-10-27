@@ -16,7 +16,7 @@ import java.util.concurrent.RecursiveAction;
 @Service
 @Setter
 @Getter
-public class SiteСrawler extends RecursiveAction {
+public class SiteСrawler extends RecursiveAction{
     public SiteСrawler(){}
     TreeSite tree = new TreeSite();
     TreeSite branch = new TreeSite();
@@ -26,14 +26,13 @@ public class SiteСrawler extends RecursiveAction {
         this.branch = branch;
     }
     private Set<String> text = new TreeSet<>();
-    //private List<String> links = new ArrayList<>();
     public void addHref(TreeSite newTree) throws IOException, InterruptedException {
 
         Thread.sleep(200);
 
         URL url = newTree.getUrl();
 
-        Set<URL> list = new TreeSet<>(Comparator.comparing(URL::toString));
+//        Set<URL> list = new TreeSet<>(Comparator.comparing(URL::toString));
         Document doc = Jsoup.connect(url.toString()).get();
         Elements href = doc.select("a[href]");
         for (Element e : href) {
@@ -57,6 +56,7 @@ public class SiteСrawler extends RecursiveAction {
             } catch (Exception ignored) {}
         }
     }
+
     @Override
     protected void compute() {
         try {
@@ -87,5 +87,6 @@ public class SiteСrawler extends RecursiveAction {
         }
         return true;
     }
+
 }
 
